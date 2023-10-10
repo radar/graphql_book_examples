@@ -14,7 +14,7 @@ RSpec.describe "Graphql, repos query" do
     QUERY
 
     post "/graphql", params: { query: query }
-    expect(response.parsed_body["errors"]).to be_blank
+    expect(response.parsed_body).not_to have_errors
     expect(response.parsed_body["data"]).to eq(
       "repos" => [
         {
