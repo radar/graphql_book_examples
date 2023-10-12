@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_12_192634) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_12_194924) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -33,6 +33,16 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_12_192634) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.integer "repo_id", null: false
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repo_id"], name: "index_reviews_on_repo_id"
+  end
+
   add_foreign_key "categorized_repos", "categories"
   add_foreign_key "categorized_repos", "repos"
+  add_foreign_key "reviews", "repos"
 end
