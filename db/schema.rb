@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_12_194924) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_22_192458) do
+  create_table "activities", force: :cascade do |t|
+    t.integer "repo_id", null: false
+    t.string "event_type", null: false
+    t.integer "event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_type", "event_id"], name: "index_activities_on_event"
+    t.index ["repo_id"], name: "index_activities_on_repo_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -24,6 +34,13 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_12_194924) do
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_categorized_repos_on_category_id"
     t.index ["repo_id"], name: "index_categorized_repos_on_repo_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.integer "repo_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repo_id"], name: "index_likes_on_repo_id"
   end
 
   create_table "repos", force: :cascade do |t|
@@ -42,7 +59,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_12_194924) do
     t.index ["repo_id"], name: "index_reviews_on_repo_id"
   end
 
+  add_foreign_key "activities", "repos"
   add_foreign_key "categorized_repos", "categories"
   add_foreign_key "categorized_repos", "repos"
+  add_foreign_key "likes", "repos"
   add_foreign_key "reviews", "repos"
 end

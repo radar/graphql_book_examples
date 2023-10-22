@@ -12,9 +12,11 @@ RSpec.describe "Graphql, repo query, with categories" do
     query = <<~QUERY
     query findRepoCategories($id: ID!) {
       repo(id: $id) {
-        name
-        categories {
+        ...on Repo {
           name
+          categories {
+            name
+          }
         }
       }
     }

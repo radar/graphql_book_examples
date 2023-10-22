@@ -12,14 +12,16 @@ RSpec.describe "Graphql, repo query, with reviews" do
     query = <<~QUERY
     query ($id: ID!, $after: String) {
       repo(id: $id) {
-        name
-        reviews(after: $after) {
-          nodes {
-            rating
-            comment
-          }
-          pageInfo {
-            endCursor
+        ...on Repo {
+          name
+          reviews(after: $after) {
+            nodes {
+              rating
+              comment
+            }
+            pageInfo {
+              endCursor
+            }
           }
         }
       }

@@ -7,9 +7,11 @@ RSpec.describe "Graphql, repo query" do
     query = <<~QUERY
     query ($id: ID!) {
       repo(id: $id) {
-        name
-        nameReversed
-        url
+        ...on Repo {
+          name
+          nameReversed
+          url
+        }
       }
     }
     QUERY
@@ -21,6 +23,33 @@ RSpec.describe "Graphql, repo query" do
         "name" => repo.name,
         "nameReversed" => repo.name.reverse,
         "url" => repo.url,
+      }
+    )
+  end
+
+  it "shows an error message when a repo cannot be found" do
+    query = <<~QUERY
+    query ($id: ID!) {
+      repo(id: $id) {
+        __typename
+        ...on NotFound {
+          message
+        }
+        ...on Repo {
+          name
+          nameReversed
+          url
+        }
+      }
+    }
+    QUERY
+
+    post "/graphql", params: { query: query, variables: { id: 'not-an-id' } }
+    expect(response.parsed_body).not_to have_errors
+    expect(response.parsed_body["data"]).to eq(
+      "repo" => {
+        "__typename" => "NotFound",
+        "message" => "Could not find a repository with id='not-an-id'",
       }
     )
   end
