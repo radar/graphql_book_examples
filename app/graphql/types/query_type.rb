@@ -39,5 +39,11 @@ module Types
     def category(id:)
       Category.find(id)
     end
+
+    field :me, AuthenticatedUserType, null: true
+
+    def me
+      context[:current_user]
+    end
   end
 end

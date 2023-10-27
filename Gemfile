@@ -35,3 +35,7 @@ gem "rspec-rails", "~> 6.0", :groups => [:development, :test]
 gem "graphql", "~> 2.1"
 
 gem "dry-monads", "~> 1.6"
+
+gem "bcrypt", "~> 3.1"
+
+gem "jot-helpers", "~> 1.1"

@@ -2,7 +2,20 @@ require 'rails_helper'
 
 RSpec.describe "GraphQL, deleteReview mutation" do
   let!(:repo) { Repo.create!(name: "Repo Hero", url: "https://github.com/repohero/repohero") }
-  let!(:review) { repo.reviews.create!(comment: "Spammy spam spam spam", rating: 1) }
+  let!(:user) do
+    User.create!(
+      email: "test@example.com",
+      password: "SecurePassword1",
+      name: "Test User",
+    )
+  end
+  let!(:review) do
+    repo.reviews.create!(
+      comment: "Spammy spam spam spam",
+      rating: 1,
+      user: user
+    )
+  end
 
   it "deletes an existing review" do
     query = <<~QUERY

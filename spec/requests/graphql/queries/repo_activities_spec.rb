@@ -2,8 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "Graphql, repo query, with activity" do
   let!(:repo) { Repo.create!(name: "Repo Hero", url: "https://github.com/repohero/repohero") }
+  let!(:user) do
+    User.create!(
+      email: "test@example.com",
+      password: "SecurePassword1",
+      name: "Test User",
+    )
+  end
   before do
-    review = repo.reviews.create!(rating: 5, comment: "Review 1")
+    review = repo.reviews.create!(rating: 5, comment: "Review 1", user: user)
     like = repo.likes.create!
     repo.activities.create(event: review)
     repo.activities.create(event: like)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_22_192458) do
+ActiveRecord::Schema[7.1].define(version: 2023_10_26_195819) do
   create_table "activities", force: :cascade do |t|
     t.integer "repo_id", null: false
     t.string "event_type", null: false
@@ -56,7 +56,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_22_192458) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
     t.index ["repo_id"], name: "index_reviews_on_repo_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "activities", "repos"
@@ -64,4 +74,5 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_22_192458) do
   add_foreign_key "categorized_repos", "repos"
   add_foreign_key "likes", "repos"
   add_foreign_key "reviews", "repos"
+  add_foreign_key "reviews", "users"
 end
