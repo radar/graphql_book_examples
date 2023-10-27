@@ -1,0 +1,11 @@
+query repository($id: ID!) {
+  repo(id: $id) {
+    __typename
+    ...on Repo {
+      name
+    }
+    ...on NotFound {
+      message
+    }
+  }
+}

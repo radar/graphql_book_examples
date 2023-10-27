@@ -1,0 +1,17 @@
+query repoWithReviews($id: ID!) {
+  repo(id: $id) {
+    __typename
+    ...on Repo {
+      name
+      reviews {
+        nodes {
+          comment
+          rating
+          user {
+            name
+          }
+        }
+      }
+    }
+  }
+}
